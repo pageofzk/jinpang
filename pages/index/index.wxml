@@ -1,0 +1,216 @@
+<!-- index.wxml -->
+<!-- <view class="mpage {{!ui.tStart? 'withAnimate': ''}}" style="left:{{ui.offsetLeft}}px;width: {{ui.windowWidth}}px;" bindtouchstart="handlerStart" catchtouchmove="handlerMove"  bindtouchcancel="handlerCancel" bindtouchend="handlerEnd" bindtap="handlerPageTap"> -->
+<view >
+
+
+
+    <!-- <view class="search">
+      <view catchtap="handlerAvatarTap" class="avatar">
+        <image src="{{userInfo.avatarUrl}}"></image>
+      </view>
+      <view class="search-wrapper {{show_search_back?'search-wrapper-blue':''}}">
+        <view class="search-button" bindtap="click_search">
+          <view class="iconfont icon-sousuo"></view>
+          搜索活动
+        </view>
+      </view>
+      <view bindtap='gotoMap' class="avatar_r">
+        <image src="/static/images/map7.png"></image>
+      </view>
+    </view> -->
+    <!-- 活动详情界面 -->
+    <!-- <swiper duration="300" interval="5000" autoplay="{{autoplay}}" bindchange="onSwiperChange" current="{{ curIndex }}" style="overflow: visible;">
+      <swiper-item wx:for="{{ postsShowSwiperList }}" style="overflow: visible;" wx:key="actpic">
+        <image src="{{ item.actPic }}" style="width: 100%; height: 300rpx; background: #fff; box-shadow: 0 10rpx 15rpx rgba(0, 0, 0, .1); -webkit-transform: scale({{ curIndex == index ? 0.9 : 0.65 }}) translate({{ (curIndex == index - 1 || curIndex == index + 1) ? (curIndex - index) * 30 : 0 }}%, 0); -webkit-transition: .3s; position: relative;"
+          data-actid="{{item.id}}" data-pubid='{{item.publisherId}}' bindtap="click_activity" mode="aspectFill" />
+        <view class="horizontal">
+          <view class="tag recommend">最热活动</view>
+          <text class="title">{{item.title}}</text>
+        </view>
+      </swiper-item>
+    </swiper> -->
+    <!-- 发帖button -->
+    <view catchtap="goPublish"class="publish-ctn">
+      <image class="add-icon"src="https://static2.xiaoniangao.cn/mini_app/img/discover/follow.png"></image>
+      <view class="add-txt">发帖</view>
+    </view>
+    <!-- 顶部导航 -->
+    <!-- <view class="subtitle" bindtap='gotoMap'>
+        <image src="/static/images/ic_activity.png" mode="aspectFit" />
+        <text>智学苑-小区</text>
+        <space/>
+        <button bindtap="refresh">点击刷新</button>
+        <image src="/static/images/map7.png"></image>
+        </view> -->
+        
+      <scroll-view scroll-x="true" class="tab-h" scroll-left="{{scrollLeft}}">
+          <view class="tab-item {{currentTab==0?'active':''}}"  data-current="0" bindtap="swichNav">健康</view>
+          <view class="tab-item {{currentTab==1?'active':''}}" data-current="1" bindtap="swichNav">情感</view>
+          <view class="tab-item {{currentTab==2?'active':''}}" data-current="2" bindtap="swichNav">职场</view>
+          <view class="tab-item {{currentTab==3?'active':''}}" data-current="3" bindtap="swichNav">育儿</view>
+          <view class="tab-item {{currentTab==4?'active':''}}" data-current="4" bindtap="swichNav">纠纷</view>
+          <view class="tab-item {{currentTab==5?'active':''}}" data-current="5" bindtap="swichNav">青葱</view>
+          <view class="tab-item {{currentTab==6?'active':''}}" data-current="6" bindtap="swichNav">全部</view>
+          <view class="tab-item {{currentTab==7?'active':''}}" data-current="7" bindtap="swichNav">其他</view>
+      </scroll-view>
+      </view>
+      <swiper class="tab-content" current="{{currentTab}}" duration="300" bindchange="switchTab"
+      style="height:{{winHeight}}rpx">
+          <swiper-item wx:for="{{[0,1,2,3,4,5,6,7]}}">
+            <scroll-view bindscroll="" scroll-y style="height: 100%;" >
+                <view class="activities">
+                  <view class="activity" wx:for="{{postsList}}" wx:key="id">
+                    <view class="list_header">
+                      <view class="list_header_left">
+                        <image mode="aspectFill" src="{{item.publisherPic}}" wx:if="publisherPic"></image>
+                        <view>{{item.publisherName}}</view>
+                      </view>
+                      <view class="content-date list_header_right">
+                        <image src="/static/images/calendar.png"></image>
+                        <text>{{item.pubtime}}</text>
+                        <image src="/static/images/comments.png"></image>
+                        <text class="">{{item.commentnum}}</text>
+                        <image src="/static/images/home-like.png"></image>
+                        <text class="">{{item.likenum}}</text>
+                      </view>
+                    </view>
+                    <view class="horizontal">
+                      <view class="tag tag_{{item.acttype}}">{{item.acttypename}}</view>
+                      <text class="title">{{ item.title }}</text>
+                    </view>
+                    <image mode="aspectFill" class="photo" src="{{item.actPic}}" wx:if="{{item.actPic}}" data-actid="{{item.id}}" data-pubid='{{item.publisherId}}' bindtap="click_activity"></image>
+                    <text class="intro">{{item.content}}</text>
+                    <text class="time">有效时间：{{ item.endtime }}</text>
+                    <text class="location">活动地点：{{ item.address }}</text>
+
+                  </view>
+                  <view class="loadingmore">
+                  <view wx:if="{{!isEmpty}}">
+                    <button class="more-button" formType="submit" size="mini" bindtap="loadMore">加载更多...</button>
+                  </view>
+                  <view class="no-more" wx:if="{{isEmpty}}">---无更多活动---</view>
+                </view>
+
+                </view>
+
+                <tab-shadow/>
+              </scroll-view>
+              
+              <!-- <scroll-view scroll-y="true" class="scoll-h" >
+                  <block wx:for="{{[1,2,3,4,5,6,7,8]}}" wx:key="*this">
+                      <view class="item-ans">
+                          <view class="avatar">
+                              <image class="img" src="http://ookzqad11.bkt.clouddn.com/avatar.png"></image>
+                          </view>
+                          <view class="expertInfo">
+                              <view class="name">欢颜</view>
+                              <view class="tag">知名情感博主</view>
+                              <view class="answerHistory">134个回答，2234人听过 </view>
+                          </view>
+                          <navigator url="/pages/askExpert/expertDetail" class="askBtn">问TA</navigator> 
+                      </view>
+                  </block>
+              </scroll-view> -->
+          </swiper-item>
+      </swiper>
+  
+  <!-- 内容列表 -->      
+  <!-- <scroll-view bindscroll="" scroll-y style="height: 100%;" >
+
+    <view class="activities">
+      <view class="activity" wx:for="{{postsList}}" wx:key="id">
+        <view class="list_header">
+          <view class="list_header_left">
+            <image mode="aspectFill" src="{{item.publisherPic}}" wx:if="publisherPic"></image>
+            <view>{{item.publisherName}}</view>
+          </view>
+          <view class="content-date list_header_right">
+            <image src="/static/images/calendar.png"></image>
+            <text>{{item.pubtime}}</text>
+            <image src="/static/images/comments.png"></image>
+            <text class="">{{item.commentnum}}</text>
+            <image src="/static/images/home-like.png"></image>
+            <text class="">{{item.likenum}}</text>
+          </view>
+        </view>
+        <view class="horizontal">
+          <view class="tag tag_{{item.acttype}}">{{item.acttypename}}</view>
+          <text class="title">{{ item.title }}</text>
+        </view>
+        <image mode="aspectFill" class="photo" src="{{item.actPic}}" wx:if="{{item.actPic}}" data-actid="{{item.id}}" data-pubid='{{item.publisherId}}' bindtap="click_activity"></image>
+        <text class="intro">{{item.content}}</text>
+        <text class="time">有效时间：{{ item.endtime }}</text>
+        <text class="location">活动地点：{{ item.address }}</text>
+
+      </view>
+      <view class="loadingmore">
+      <view wx:if="{{!isEmpty}}">
+        <button class="more-button" formType="submit" size="mini" bindtap="loadMore">加载更多...</button>
+      </view>
+      <view class="no-more" wx:if="{{isEmpty}}">---无更多活动---</view>
+    </view>
+
+    </view>
+
+    <tab-shadow/>
+  </scroll-view> -->
+
+
+<!-- 侧滑栏 -->
+<!-- <view bindtouchstart="handlerStart" catchtouchmove="handlerMove" bindtouchcancel="handlerCancel" bindtouchend="handlerEnd" class="user" style="width: {{ui.menuWidth}}px">
+  <view style="width: {{ui.menuWidth}}px;left:{{-ui.menuWidth/3 + ui.offsetLeft/3}}px" class="user-box {{!ui.tStart? 'withAnimate': ''}}">
+    <view class="user-face-wrapper">
+      <image mode="aspectFill" src="/static/images/icon/backGround.png" style="height: 150px" class="loginbg"></image>
+      <image class="user-face" src="{{userInfo.avatarUrl}}"></image>
+      <view class='user-info'>
+        <text>{{userInfo.nickName}}</text>
+        <image wx:if="{{userInfo.gender == 1}}" src="/static/images/m3.png"></image>
+        <image wx:if="{{userInfo.gender == 2}}" src="/static/images/w3.png"></image>
+        <image wx:if="{{userInfo.gender == 0 || userInfo.gender==''}}" src="/static/images/sex.png"></image>
+      </view>
+    </view>
+    <view style='background-color: #fff;' class='bottom-box'>
+      <view class="list-box">
+        <view class="icon-text">
+          <span>步数</span>
+        </view>
+        <text>2543</text>
+      </view>
+      <view class="list-box " bindtap=" ">
+        <view class="icon-text ">
+          <span>排名</span>
+        </view>
+        <text>21</text>
+      </view>
+    </view>
+    <view class="thirdblock" style='margin-top:80px;'>
+      <view class="itemself" bindtap="click_myLaunch" data-index="1">
+        <image src="/static/images/icon/times.png" class="itemself_ico"></image>
+        <span>我的发起</span>
+      </view>
+      <view class="itemself" bindtap="click_myJoin" data-index="2">
+        <image src="/static/images/icon/jssq.png" class="itemself_ico"></image>
+        <span>我的加入</span>
+      </view>
+      <view class="itemself" bindtap="click_myCollection" data-index="3">
+        <image src="/static/images/icon/status.png" class="itemself_ico"></image>
+        <span>我的收藏</span>
+      </view>
+      <view class="itemself" bindtap="click_projectBrief" data-index="4">
+        <image src="/static/images/icon/specialty.png" class="itemself_ico"></image>
+        <span>项目简介</span>
+      </view>
+      <view class="itemself" bindtap="click_Tick" data-index="5">
+        <image src="/static/images/icon/tick2.png " class="itemself_ico"></image>
+        <span>反馈建议</span>
+      </view>
+       <view class="itemself" bindtap="click_more" data-index="6">
+        <image src="/static/images/icon/plus.png " class="itemself_ico"></image>
+        <span>更多信息</span>
+      </view>
+    </view>
+    <view class="h10"></view>
+    <view class="h10"></view>
+
+  </view>
+</view> -->
